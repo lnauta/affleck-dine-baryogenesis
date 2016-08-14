@@ -9,6 +9,6 @@ These notebooks can be used to calculate the baryon asymmetry parameter \eta (an
 They are mostly on gauge mediated symmetry breaking (GMSB), but most of the (gravity) Planck mediated symmetry breaking (PMSB) functionality  can be recovered by removing the logarithmic term from the potential.
 The PMSB code is not included since it needs too much work to clean up and prettify, and it's quite similar to the GMSB code.
 
-Note: The code is not split up in .m files and notebooks. It was written on Mathematica 7 and 8, I can not guarantee that it works on the latest version of Mathematica.
+Note: The code is not split up in .m files and notebooks. It was written on Mathematica 7 and 8, I can not guarantee that it works on the latest version of Mathematica. If you update the code just make a pull request.
 
 This code is released under the MIT license (2016)..
