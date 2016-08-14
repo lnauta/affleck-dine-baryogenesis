@@ -1,0 +1,170 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Visualization of the local minimum not disappearing", "Title",
+ CellChangeTimes->{{3.679381638043415*^9, 3.6793816383386974`*^9}}],
+
+Cell["\<\
+In this notebook we see that a local minimum does not disappear for t\[Rule]\
+\[Infinity] at a certain large value of b. Without it disappearing we can not \
+have the asymmetry generation we need in the the model, meaning b is bound.
+And when b becomes larger we also note that the minimum moves outward.\
+\>", "Text",
+ CellChangeTimes->{{3.679384750885954*^9, 3.679384786717233*^9}}],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"b", "=", "30"}], ";", 
+    RowBox[{
+     SubscriptBox["A", "0"], "=", "1"}], ";", 
+    RowBox[{"n", "=", "5"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"Animate", "[", 
+    RowBox[{
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"Log", "[", 
+           RowBox[{"1", "+", 
+            FractionBox["\[Chi]", 
+             SqrtBox["2"]]}], "]"}], "2"], "-", 
+         RowBox[{
+          FractionBox["2", "9"], 
+          FractionBox[
+           SuperscriptBox["\[Chi]", "2"], 
+           SuperscriptBox["\[Tau]", "2"]]}], "-", 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox[
+            RowBox[{
+             RowBox[{"Abs", "[", 
+              SubscriptBox["A", "0"], "]"}], 
+             SuperscriptBox["b", 
+              RowBox[{"2", "-", "n"}]]}], "n"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             FractionBox["\[Chi]", 
+              SqrtBox["2"]], ")"}], "n"]}], ")"}], "+", 
+         RowBox[{
+          SuperscriptBox["b", 
+           RowBox[{"4", "-", 
+            RowBox[{"2", "n"}]}]], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox["\[Chi]", 
+             SqrtBox["2"]], ")"}], 
+           RowBox[{
+            RowBox[{"2", "n"}], "-", "2"}]]}]}], "/.", 
+        RowBox[{"\[Tau]", "\[Rule]", "t"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\[Chi]", ",", "0", ",", "40"}], "}"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "20"}], ",", "10"}], "}"}]}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", "1", ",", "100"}], "}"}], ",", 
+     RowBox[{"AnimationRunning", "\[Rule]", "False"}]}], "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Animate", "[", 
+    RowBox[{
+     RowBox[{"Plot", "[", 
+      RowBox[{"(*", 
+       SuperscriptBox[
+        RowBox[{"Log", "[", 
+         RowBox[{"1", "+", 
+          FractionBox["\[Chi]", 
+           SqrtBox["2"]]}], "]"}], "2"], "*)"}], 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox[
+            RowBox[{
+             RowBox[{"Abs", "[", 
+              SubscriptBox["A", "0"], "]"}], 
+             SuperscriptBox["B", 
+              RowBox[{"2", "-", "n"}]]}], "n"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             FractionBox["\[Chi]", 
+              SqrtBox["2"]], ")"}], "n"]}], ")"}]}], "+", 
+        RowBox[{
+         SuperscriptBox["B", 
+          RowBox[{"4", "-", 
+           RowBox[{"2", "n"}]}]], 
+         SuperscriptBox[
+          RowBox[{"(", 
+           FractionBox["\[Chi]", 
+            SqrtBox["2"]], ")"}], 
+          RowBox[{
+           RowBox[{"2", "n"}], "-", "2"}]]}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\[Chi]", ",", "0", ",", "40"}], "}"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "20"}], ",", "10"}], "}"}]}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"B", ",", "10", ",", "40"}], "}"}], ",", 
+     RowBox[{"AnimationRunning", "\[Rule]", "False"}]}], "]"}]}]}]], "Input"],
+
+Cell["\<\
+Next is a 3D plot of the potential where we run over the radial direction \
+\[Chi] and over the mass parameter b to see how it changes the shape.\
+\>", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "b", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Plot3D", "[", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox[
+     RowBox[{"Log", "[", 
+      RowBox[{"1", "+", 
+       FractionBox["\[Chi]", 
+        SqrtBox["2"]]}], "]"}], "2"], "-", 
+    RowBox[{"(", 
+     RowBox[{
+      FractionBox[
+       RowBox[{
+        RowBox[{"Abs", "[", 
+         SubscriptBox["A", "0"], "]"}], 
+        SuperscriptBox["b", 
+         RowBox[{"2", "-", "n"}]]}], "n"], 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox["\[Chi]", 
+         SqrtBox["2"]], ")"}], "n"]}], ")"}], "+", 
+    RowBox[{
+     SuperscriptBox["b", 
+      RowBox[{"4", "-", 
+       RowBox[{"2", "n"}]}]], 
+     SuperscriptBox[
+      RowBox[{"(", 
+       FractionBox["\[Chi]", 
+        SqrtBox["2"]], ")"}], 
+      RowBox[{
+       RowBox[{"2", "n"}], "-", "2"}]]}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Chi]", ",", "0", ",", "40"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"b", ",", "1", ",", "40"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "1"}], ",", "10"}], "}"}]}]}], "]"}]}], "Input"]
+}, Open  ]]
+},
+WindowSize->{1460, 791},
+WindowMargins->{{53, Automatic}, {Automatic, 17}},
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+

@@ -1,0 +1,803 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["GMSB: General look at solutions", "Title"],
+
+Cell["\<\
+In this notebook we look at some basic properties of the system.
+Here you can find some code that can be used and adjusted if you want to plot \
+things like the trajectory of \[CapitalPhi], \[Eta], \[Chi], \[Theta], etc. \
+It is not very dynamic, but it works.\
+\>", "Text"],
+
+Cell["Calculation for b<=1", "Section",
+ CellGroupingRules->{GroupTogetherGrouping, 10000.}],
+
+Cell[TextData[{
+ "We first initialize some parameters and boundary conditions. ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["T", "osc"], TraditionalForm]]],
+ " is the oscillation time from 1201.2200, so it is not numerically found. ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["T", "start"], TraditionalForm]]],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["T", "end"], TraditionalForm]]],
+ " are derived from it. These bounds seem to be enough to inspect the whole \
+problem.\n",
+ Cell[BoxData[
+  FormBox["\[Chi]0", TraditionalForm]]],
+ " is the analytical minimum in the \[Chi] direction, it is used in Mi to \
+find the minimum.\nNext we take the coordinates of the minimum (\[Theta]i=\
+\[Pi]/10 is there to force the angle to be maximal, instead of minimal).\n\
+Then we use NDSolve the equations of motion, with \[Chi]i and \[Theta]i. Note \
+that \[Chi]\[CloseCurlyQuote][Tstart] and \[Theta]\[CloseCurlyQuote][Tstart] \
+are set to zero, with still the old values behind it."
+}], "Text"],
+
+Cell[BoxData[{
+ RowBox[{"Quit", ";", 
+  RowBox[{"Clear", "[", 
+   RowBox[{"n", ",", "b", ",", "A0", ",", "\[Chi]i", ",", "\[Theta]i"}], 
+   "]"}], ";", 
+  RowBox[{"Off", "[", 
+   RowBox[{
+    StyleBox[
+     RowBox[{"Clear", "::", "ssym"}], "MessageName"], ",", 
+    StyleBox[
+     RowBox[{"InterpolatingFunction", "::", "dmval"}], "MessageName"]}], 
+   StyleBox["]", "MessageName"]}], 
+  StyleBox[";", "MessageName"]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"n", "=", "5"}], ";", 
+  RowBox[{"A0", "=", 
+   RowBox[{"10", "^", "0"}]}], ";", 
+  RowBox[{"b", "=", 
+   RowBox[{"0.9", " ", 
+    RowBox[{"10", "^", "0"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Tosc", "=", 
+   RowBox[{"N", "[", 
+    FractionBox["2", "3"], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Tstart", "=", 
+   RowBox[{
+    FractionBox["1", "10"], "Tosc"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Tend", "=", 
+   RowBox[{
+    RowBox[{"10", "^", "3"}], " ", "Tstart"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"\[Chi]0", "=", 
+   RowBox[{"N", "[", 
+    RowBox[{
+     RowBox[{"b", 
+      SqrtBox["2"], 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox["2", 
+         RowBox[{"3", "\[Tau]", " "}]], ")"}], 
+       FractionBox["2", 
+        RowBox[{
+         RowBox[{"2", "n"}], "-", "4"}]]]}], "/.", 
+     RowBox[{"\[Tau]", "\[Rule]", "Tstart"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Mi", "=", 
+   RowBox[{"FindMinimum", "[", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"Log", "[", 
+           RowBox[{"1", "+", 
+            FractionBox["\[Chi]", 
+             SqrtBox["2"]]}], "]"}], "2"], "-", 
+         RowBox[{
+          FractionBox["2", "9"], 
+          FractionBox[
+           SuperscriptBox["\[Chi]", "2"], 
+           SuperscriptBox["\[Tau]", "2"]]}], "+", 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox[
+            RowBox[{
+             RowBox[{"Abs", "[", "A0", "]"}], 
+             SuperscriptBox["b", 
+              RowBox[{"2", "-", "n"}]]}], "n"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             FractionBox["\[Chi]", 
+              SqrtBox["2"]], ")"}], "n"], 
+           RowBox[{"Cos", "[", 
+            RowBox[{
+             RowBox[{"n", " ", "\[Theta]"}], "+", 
+             RowBox[{"Arg", "[", "A0", "]"}]}], "]"}]}], ")"}], "+", 
+         RowBox[{
+          SuperscriptBox["b", 
+           RowBox[{"4", "-", 
+            RowBox[{"2", "n"}]}]], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox["\[Chi]", 
+             SqrtBox["2"]], ")"}], 
+           RowBox[{
+            RowBox[{"2", "n"}], "-", "2"}]]}]}], "/.", 
+        RowBox[{"\[Tau]", "->", " ", "Tstart"}]}], ",", 
+       RowBox[{"\[Chi]", ">", "0"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Chi]", ",", "\[Chi]0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Theta]", ",", " ", 
+       FractionBox["\[Pi]", "n"]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Chi]i", "=", 
+   RowBox[{"\[Chi]", "/.", 
+    RowBox[{"Last", "[", "Mi", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Theta]i", "=", 
+   RowBox[{"\[Theta]", "/.", 
+    RowBox[{"Last", "[", "Mi", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Theta]i", "=", 
+   RowBox[{"\[Pi]", "/", "10"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{"\[Tau]", ",", "\[Chi]", ",", "\[Theta]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"NDSolve", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"\[Chi]", "''"}], "[", "\[Tau]", "]"}], "+", 
+         RowBox[{
+          FractionBox["2", "\[Tau]"], 
+          RowBox[{
+           RowBox[{"\[Chi]", "'"}], "[", "\[Tau]", "]"}]}], "-", 
+         RowBox[{
+          RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+          SuperscriptBox[
+           RowBox[{
+            RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}], "2"]}], "+", 
+         RowBox[{
+          SqrtBox["2"], 
+          RowBox[{"Log", "[", 
+           RowBox[{"1", "+", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]]}], "]"}], 
+          FractionBox["1", 
+           RowBox[{"1", "+", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]]}]]}], "-", 
+         RowBox[{
+          FractionBox["4", 
+           RowBox[{"9", 
+            SuperscriptBox["\[Tau]", "2"]}]], 
+          RowBox[{"\[Chi]", "[", "\[Tau]", "]"}]}], "+", 
+         RowBox[{
+          SuperscriptBox["b", 
+           RowBox[{"2", "-", "n"}]], 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"Abs", "[", "A0", "]"}], 
+            SuperscriptBox[
+             RowBox[{"(", 
+              FractionBox[
+               RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+               SqrtBox["2"]], ")"}], 
+             RowBox[{"n", "-", "1"}]], 
+            SqrtBox["2"], 
+            RowBox[{"Cos", "[", 
+             RowBox[{
+              RowBox[{"n", " ", 
+               RowBox[{"\[Theta]", "[", "\[Tau]", "]"}]}], "+", 
+              RowBox[{"Arg", "[", "A0", "]"}]}], "]"}]}], ")"}]}], "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", "n"}], "-", "2"}], ")"}], 
+          SuperscriptBox["b", 
+           RowBox[{"4", "-", 
+            RowBox[{"2", "n"}]}]], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]], ")"}], 
+           RowBox[{
+            RowBox[{"2", "n"}], "-", "3"}]], 
+          SqrtBox["2"]}]}], "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"\[Theta]", "''"}], "[", "\[Tau]", "]"}], "+", 
+         RowBox[{"2", 
+          FractionBox[
+           RowBox[{
+            RowBox[{"\[Chi]", "'"}], "[", "\[Tau]", "]"}], 
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}]], 
+          RowBox[{
+           RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}]}], "+", 
+         RowBox[{
+          FractionBox["2", "\[Tau]"], 
+          RowBox[{
+           RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}]}], "-", 
+         RowBox[{
+          SuperscriptBox["b", 
+           RowBox[{"2", "-", "n"}]], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]], ")"}], 
+           RowBox[{"n", "-", "2"}]], 
+          RowBox[{"Abs", "[", "A0", "]"}], 
+          RowBox[{"Sin", "[", 
+           RowBox[{
+            RowBox[{"n", " ", 
+             RowBox[{"\[Theta]", "[", "\[Tau]", "]"}]}], "+", 
+            RowBox[{"Arg", "[", "A0", "]"}]}], "]"}]}]}], "\[Equal]", "0"}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"\[Chi]", "[", "Tstart", "]"}], "\[Equal]", "\[Chi]i"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]", "[", "Tstart", "]"}], "\[Equal]", "\[Theta]i"}], 
+       ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Chi]", "'"}], "[", "Tstart", "]"}], "\[Equal]", 
+        RowBox[{"0", 
+         FractionBox[
+          RowBox[{"-", "1"}], 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"n", "-", "2"}], ")"}], " ", "Tstart"}]], "\[Chi]i"}]}], 
+       ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Theta]", "'"}], "[", "Tstart", "]"}], "\[Equal]", 
+        RowBox[{"0", 
+         FractionBox[
+          RowBox[{"-", "1"}], 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"n", "-", "2"}], ")"}], " ", "Tstart"}]], 
+         "\[Theta]i"}]}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Chi]", ",", "\[Theta]"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+     RowBox[{"MaxSteps", "\[Rule]", "Infinity"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"times", "=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"10", "^", "i"}], " ", "Tstart"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "0", ",", 
+        RowBox[{"Log10", "[", 
+         RowBox[{"Tend", "/", "Tstart"}], "]"}]}], "}"}]}], "]"}]}], ";"}], 
+  " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "This", " ", "is", " ", "for", " ", "the", " ", "plot", " ", "below"}], 
+    ",", " ", 
+    RowBox[{
+    "it", " ", "denotes", " ", "the", " ", "times", " ", "of", " ", 
+     "Tstart"}], ",", " ", 
+    RowBox[{"10", "Tstart"}], ",", " ", "..."}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"points", "=", 
+    RowBox[{"Flatten", "[", 
+     RowBox[{
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Evaluate", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             RowBox[{"Cos", "[", 
+              RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}], ",", 
+            RowBox[{
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             RowBox[{"Sin", "[", 
+              RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}]}], "}"}], "/.",
+           "s"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\[Tau]", ",", "times"}], "}"}]}], "]"}], ",", "1"}], 
+     "]"}]}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "This", " ", "table", " ", "contains", " ", "the", " ", "dots", " ", "we",
+      " ", "use", " ", "in", " ", "the", " ", "plot", " ", "to", " ", "show", 
+     " ", "where", " ", "10", "Tstart"}], ",", " ", 
+    RowBox[{"100", "Tstart", " ", "etc", " ", "is", " ", 
+     RowBox[{"located", "."}]}]}], "*)"}]}]}], "Input",
+ CellGroupingRules->{GroupTogetherGrouping, 10000.}],
+
+Cell["Below are some \[OpenCurlyDoubleQuote]textbook\[CloseCurlyDoubleQuote] \
+plots.", "Text"],
+
+Cell[BoxData[{
+ RowBox[{"LogLinearPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"Mod", "[", 
+      RowBox[{
+       RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], ",", 
+       RowBox[{"2", "\[Pi]"}]}], "]"}], "/.", "s"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", " ", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<t\>\"", ",", "\"\<\[Theta] mod 2\[Pi]\>\""}], "}"}]}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"LogLogPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}], "/.", "s"}], "]"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<t\>\"", ",", "\"\<\[Theta]'\>\""}], "}"}]}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"LogLinearPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", " ", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], "2"], 
+      RowBox[{
+       RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}]}], "/.", "s"}], "]"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<t\>\"", ",", 
+      "\"\<\!\(\*SuperscriptBox[\(\[Chi]\), \(2\)]\)\[Theta]'\>\""}], 
+     "}"}]}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"LogLinearPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], "/.", "s"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", " ", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<t\>\"", ",", "\"\<\[Chi]\>\""}], "}"}]}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"LogLinearPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["\[Tau]", "2"], 
+      SuperscriptBox[
+       RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], "2"], 
+      RowBox[{
+       RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}]}], "/.", "s"}], "]"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", " ", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<t\>\"", ",", 
+      "\"\<\!\(\*SuperscriptBox[\(a\), \(3\)]\)\!\(\*SubscriptBox[\(n\), \
+\(X\)]\)\>\""}], "}"}]}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ParametricPlot", "[", 
+   RowBox[{
+    RowBox[{"Evaluate", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+           RowBox[{"Cos", "[", 
+            RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}], ",", 
+          RowBox[{
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+           RowBox[{"Sin", "[", 
+            RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}]}], "}"}], "/.", 
+        "s"}], ",", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+           RowBox[{"Cos", "[", 
+            RowBox[{"\[Pi]", "/", "5"}], "]"}]}], ",", 
+          RowBox[{
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+           RowBox[{"Sin", "[", 
+            RowBox[{"\[Pi]", "/", "5"}], "]"}]}]}], "}"}], "/.", "s"}]}], 
+      "}"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+    RowBox[{"PlotRange", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "0.2"}], ",", "0.2"}], "}"}]}], 
+    RowBox[{"(*", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "\[Chi]i"}], ",", "\[Chi]i"}], "}"}], "*)"}], ",", 
+    RowBox[{"ColorFunction", "\[Rule]", 
+     RowBox[{"Function", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"\[Chi]", ",", "\[Theta]", ",", "\[Tau]"}], "}"}], ",", 
+       RowBox[{"Hue", "[", 
+        RowBox[{
+         RowBox[{"1", "/", "6"}], 
+         RowBox[{"Log10", "[", 
+          RowBox[{"\[Tau]", "/", 
+           RowBox[{"(", "Tend", ")"}]}], "]"}]}], "]"}]}], "]"}]}], ",", 
+    RowBox[{"ColorFunctionScaling", "\[Rule]", "False"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Show", "[", 
+  RowBox[{
+   RowBox[{"ParametricPlot", "[", 
+    RowBox[{
+     RowBox[{"Evaluate", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+           RowBox[{"Cos", "[", 
+            RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}], ",", 
+          RowBox[{
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+           RowBox[{"Sin", "[", 
+            RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}]}], "}"}], "/.", 
+        "s"}], "}"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], ",", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{"points", ",", 
+     RowBox[{"PlotStyle", "\[Rule]", "Red"}]}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]"}], "Input",
+ CellGroupingRules->{GroupTogetherGrouping, 10000.}],
+
+Cell[CellGroupData[{
+
+Cell["Calculation for b>1", "Section",
+ CellGroupingRules->{GroupTogetherGrouping, 10001.}],
+
+Cell[BoxData[{
+ RowBox[{"Quit", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"n", "=", "5"}], ";", 
+  RowBox[{"A0", "=", 
+   RowBox[{"10", "^", "0"}]}], ";", 
+  RowBox[{"b", "=", 
+   RowBox[{"5", " ", 
+    RowBox[{"10", "^", "0"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Tosc", "=", 
+   RowBox[{"N", "[", 
+    FractionBox["2", "3"], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Tstart", "=", 
+   RowBox[{
+    FractionBox["1", "10"], "Tosc"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Tend", "=", 
+   RowBox[{
+    RowBox[{"10", "^", "3"}], "  ", "Tstart"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"\[Chi]0", "=", 
+   RowBox[{"N", "[", 
+    RowBox[{
+     RowBox[{"b", 
+      SqrtBox["2"], 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox["2", 
+         RowBox[{"3", "\[Tau]", " "}]], ")"}], 
+       FractionBox["2", 
+        RowBox[{
+         RowBox[{"2", "n"}], "-", "4"}]]]}], "/.", 
+     RowBox[{"\[Tau]", "\[Rule]", "Tstart"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Mi", "=", 
+   RowBox[{"FindMinimum", "[", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"Log", "[", 
+           RowBox[{"1", "+", 
+            FractionBox["\[Chi]", 
+             SqrtBox["2"]]}], "]"}], "2"], "-", 
+         RowBox[{
+          FractionBox["2", "9"], 
+          FractionBox[
+           SuperscriptBox["\[Chi]", "2"], 
+           SuperscriptBox["\[Tau]", "2"]]}], "+", 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox[
+            RowBox[{
+             RowBox[{"Abs", "[", "A0", "]"}], 
+             SuperscriptBox["b", 
+              RowBox[{"2", "-", "n"}]]}], "n"], 
+           SuperscriptBox[
+            RowBox[{"(", 
+             FractionBox["\[Chi]", 
+              SqrtBox["2"]], ")"}], "n"], 
+           RowBox[{"Cos", "[", 
+            RowBox[{
+             RowBox[{"n", " ", "\[Theta]"}], "+", 
+             RowBox[{"Arg", "[", "A0", "]"}]}], "]"}]}], ")"}], "+", 
+         RowBox[{
+          SuperscriptBox["b", 
+           RowBox[{"4", "-", 
+            RowBox[{"2", "n"}]}]], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox["\[Chi]", 
+             SqrtBox["2"]], ")"}], 
+           RowBox[{
+            RowBox[{"2", "n"}], "-", "2"}]]}]}], "/.", 
+        RowBox[{"\[Tau]", "->", " ", "Tstart"}]}], ",", 
+       RowBox[{"\[Chi]", ">", "0"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Chi]", ",", "\[Chi]0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Theta]", ",", " ", 
+       FractionBox["\[Pi]", "n"]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Chi]i", "=", 
+   RowBox[{"\[Chi]", "/.", 
+    RowBox[{"Last", "[", "Mi", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Theta]i", "=", 
+   RowBox[{"\[Theta]", "/.", 
+    RowBox[{"Last", "[", "Mi", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Theta]i", "=", 
+   RowBox[{"\[Pi]", "/", "10"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{"\[Tau]", ",", "\[Chi]", ",", "\[Theta]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"NDSolve", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"\[Chi]", "''"}], "[", "\[Tau]", "]"}], "+", 
+         RowBox[{
+          FractionBox["2", "\[Tau]"], 
+          RowBox[{
+           RowBox[{"\[Chi]", "'"}], "[", "\[Tau]", "]"}]}], "-", 
+         RowBox[{
+          RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+          SuperscriptBox[
+           RowBox[{
+            RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}], "2"]}], "+", 
+         RowBox[{
+          SqrtBox["2"], 
+          RowBox[{"Log", "[", 
+           RowBox[{"1", "+", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]]}], "]"}], 
+          FractionBox["1", 
+           RowBox[{"1", "+", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]]}]]}], "-", 
+         RowBox[{
+          FractionBox["4", 
+           RowBox[{"9", 
+            SuperscriptBox["\[Tau]", "2"]}]], 
+          RowBox[{"\[Chi]", "[", "\[Tau]", "]"}]}], "+", 
+         RowBox[{
+          SuperscriptBox["b", 
+           RowBox[{"2", "-", "n"}]], 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"Abs", "[", "A0", "]"}], 
+            SuperscriptBox[
+             RowBox[{"(", 
+              FractionBox[
+               RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+               SqrtBox["2"]], ")"}], 
+             RowBox[{"n", "-", "1"}]], 
+            SqrtBox["2"], 
+            RowBox[{"Cos", "[", 
+             RowBox[{
+              RowBox[{"n", " ", 
+               RowBox[{"\[Theta]", "[", "\[Tau]", "]"}]}], "+", 
+              RowBox[{"Arg", "[", "A0", "]"}]}], "]"}]}], ")"}]}], "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", "n"}], "-", "2"}], ")"}], 
+          SuperscriptBox["b", 
+           RowBox[{"4", "-", 
+            RowBox[{"2", "n"}]}]], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]], ")"}], 
+           RowBox[{
+            RowBox[{"2", "n"}], "-", "3"}]], 
+          SqrtBox["2"]}]}], "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"\[Theta]", "''"}], "[", "\[Tau]", "]"}], "+", 
+         RowBox[{"2", 
+          FractionBox[
+           RowBox[{
+            RowBox[{"\[Chi]", "'"}], "[", "\[Tau]", "]"}], 
+           RowBox[{"\[Chi]", "[", "\[Tau]", "]"}]], 
+          RowBox[{
+           RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}]}], "+", 
+         RowBox[{
+          FractionBox["2", "\[Tau]"], 
+          RowBox[{
+           RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}]}], "-", 
+         RowBox[{
+          SuperscriptBox["b", 
+           RowBox[{"2", "-", "n"}]], 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox[
+             RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+             SqrtBox["2"]], ")"}], 
+           RowBox[{"n", "-", "2"}]], 
+          RowBox[{"Abs", "[", "A0", "]"}], 
+          RowBox[{"Sin", "[", 
+           RowBox[{
+            RowBox[{"n", " ", 
+             RowBox[{"\[Theta]", "[", "\[Tau]", "]"}]}], "+", 
+            RowBox[{"Arg", "[", "A0", "]"}]}], "]"}]}]}], "\[Equal]", "0"}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"\[Chi]", "[", "Tstart", "]"}], "\[Equal]", "\[Chi]i"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]", "[", "Tstart", "]"}], "\[Equal]", "\[Theta]i"}], 
+       ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Chi]", "'"}], "[", "Tstart", "]"}], "\[Equal]", 
+        RowBox[{"0", 
+         FractionBox[
+          RowBox[{"-", "1"}], 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"n", "-", "2"}], ")"}], " ", "Tstart"}]], "\[Chi]i"}]}], 
+       ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Theta]", "'"}], "[", "Tstart", "]"}], "\[Equal]", 
+        RowBox[{"0", 
+         FractionBox[
+          RowBox[{"-", "1"}], 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"n", "-", "2"}], ")"}], " ", "Tstart"}]], 
+         "\[Theta]i"}]}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Chi]", ",", "\[Theta]"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+     RowBox[{"MaxSteps", "\[Rule]", "Infinity"}]}], "]"}]}], ";"}]}], "Input",
+ CellGroupingRules->{GroupTogetherGrouping, 10001.}],
+
+Cell[BoxData[{
+ RowBox[{"LogLinearPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "/.", "s"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", "Tstart", ",", " ", "Tend"}], "}"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"LogLinearPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}], "/.", "s"}], "]"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Plot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", " ", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], "2"], 
+      RowBox[{
+       RowBox[{"\[Theta]", "'"}], "[", "\[Tau]", "]"}]}], "/.", "s"}], "]"}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"ParametricPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+        RowBox[{"Cos", "[", 
+         RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}], ",", 
+       RowBox[{
+        RowBox[{"\[Chi]", "[", "\[Tau]", "]"}], 
+        RowBox[{"Sin", "[", 
+         RowBox[{"\[Theta]", "[", "\[Tau]", "]"}], "]"}]}]}], "}"}], "/.", 
+     "s"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Tau]", ",", "Tstart", ",", "Tend"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "\[Chi]i"}], ",", "\[Chi]i"}], "}"}]}]}], "]"}]}], "Input",
+ CellGroupingRules->{GroupTogetherGrouping, 10001.}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1270, 741},
+WindowMargins->{{27, Automatic}, {Automatic, 30}},
+PrivateNotebookOptions->{"FileOutlineCache"->False},
+TrackCellChangeTimes->False,
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+
